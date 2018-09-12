@@ -1,0 +1,26 @@
+db:
+  host: localhost
+  port: 6379
+  use: 0
+
+# seeds:
+# - http://news.163.com/
+#
+# filter:
+#   allowed:
+#   - "^https?://news.163.com"
+#   - "^https?://bj.news.163.com"
+#   target:
+#   - "^https?://news.163.com/\\d+/\\d+/\\d+/[A-Za-z0-9]+.html$"
+#   - "^https?://bj.news.163.com/\\d+/\\d+/\\d+/[A-Za-z0-9]+.html$"
+
+seeds:
+- http://news.qq.com
+
+filter:
+  allowed:
+  - "^https?://news.qq.com"
+  target:
+  - "^https?://news?.qq.com/omn/[A-Z0-9a-z]+(\\.html?)?$"
+  - "^https?://news?.qq.com/original/oneday/[a-z0-9A-Z]+\\.html?$"
+  - "^https?://news?.qq.com/a/[a-z0-9A-Z]+/[a-z0-9A-Z]+(\\.html?)?$"

@@ -49,7 +49,7 @@ def crawl(uri):
             continue
         if any(p.match(href) for p in targetRe):
             print(f"Pushing new target {href} to head")
-            conn.rpush("crawler.pending", href)
+            conn.lpush("crawler.pending.prioritized", href)
         else:
             print(f"Pushing new link {href} to tail")
             conn.lpush("crawler.pending", href)
@@ -57,7 +57,12 @@ def crawl(uri):
 
 def loop():
     while True:
-        uri = conn.brpoplpush("crawler.pending", "crawler.working").decode("utf-8");
+        uri = conn.rpoplpush("crawler.pending.prioritized", "crawler.working")
+        if uri is None:
+            uri = conn.brpoplpush("crawler.pending", "crawler.working").decode("utf-8")
+        else:
+            uri = uri.decode("utf-8")
+
         if conn.sadd("crawler.backlog", uri) == 0:
             print(f"{uri} already crawled, skipping")
             return

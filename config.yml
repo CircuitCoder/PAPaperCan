@@ -15,6 +15,7 @@ db:
 #   - "^https?://bj.news.163.com/\\d+/\\d+/\\d+/[A-Za-z0-9]+.html$"
 
 seeds:
+- http://qq.com
 - http://news.qq.com
 
 filter:
@@ -23,4 +24,5 @@ filter:
   target:
   - "^https?://news?.qq.com/omn/[A-Z0-9a-z]+(\\.html?)?$"
   - "^https?://news?.qq.com/original/oneday/[a-z0-9A-Z]+\\.html?$"
-  - "^https?://news?.qq.com/a/[a-z0-9A-Z]+/[a-z0-9A-Z]+(\\.html?)?$"
+  - "^https?://news?.qq.com/a/\\d+/\\d+(\\.html?)?$"
+  - "^https?://news?.qq.com/cmsn/\\d+/\\d+(\\.html?)?$"

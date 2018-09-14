@@ -7,3 +7,8 @@ conn = redis.StrictRedis(
         host = config['db']['host'],
         port = config['db']['port'],
         db = config['db']['use'])
+
+wordConn = redis.StrictRedis(
+        host = config['db']['host'],
+        port = config['db']['port'],
+        db = config['db']['wordUse'])

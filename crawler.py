@@ -2,12 +2,17 @@
 
 FAKE_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.9 Safari/537.36"
 
+from bs4 import BeautifulSoup
 from config import config
 from db import conn
+from urllib.parse import urljoin
 import re
 import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
+import time
+import traceback
+
+THRESHOLD = 30000
+PENDING_EXIT = False
 
 targetRe = [re.compile(p) for p in config["filter"]["target"]]
 allowedRe = [re.compile(p) for p in config["filter"]["allowed"]]
@@ -23,11 +28,16 @@ def crawl(uri):
         return
 
     content = requests.utils.get_unicode_from_response(resp)
-    soup = BeautifulSoup(content, features="html5lib")
+    soup = BeautifulSoup(content, features="lxml")
 
     if any(p.match(uri) for p in targetRe):
         resId = conn.incr("crawler.id")
         print(f"Is a target URI, allocated ID {resId}")
+
+        global THRESHOLD
+        if resId >= THRESHOLD:
+            global PENDING_EXIT
+            PENDING_EXIT = True
         conn.hset("uri", resId, uri)
         conn.hset("raw", resId, content)
         # Notify extractor
@@ -65,15 +75,28 @@ def loop():
 
         if conn.sadd("crawler.backlog", uri) == 0:
             print(f"{uri} already crawled, skipping")
-            return
+            continue
 
         print(f"Working on: {uri}")
         crawl(uri)
         conn.lrem("crawler.working", 0, uri)
 
-failedReqs = conn.lrange("crawler.working", 0, -1)
-if len(failedReqs) > 0:
-    conn.lpush("crawler.pending", *failedReqs)
+        global PENDING_EXIT
+        if PENDING_EXIT:
+            break
 
-# TODO: multithreading
-loop()
+while True:
+    failedReqs = conn.lrange("crawler.working", 0, -1)
+    conn.delete("crawler.working")
+    if len(failedReqs) > 0:
+        conn.lpush("crawler.pending", *failedReqs)
+        print(f"Recovered: {failedReqs}")
+
+    # TODO: multithreading
+    try:
+        loop()
+        if PENDING_EXIT:
+            break
+    except Exception as e:
+        traceback.print_exception(None, e, e.__traceback__)
+        time.sleep(10)

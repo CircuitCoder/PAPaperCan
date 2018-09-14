@@ -3,6 +3,7 @@ db:
   port: 6379
   use: 0
   wordUse: 1
+  lookupUse: 2
 
 # seeds:
 # - http://news.163.com/

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from config import config
-from db import conn, wordConn
+from db import conn, wordConn, lookupConn
 import jieba
 import jieba.analyse
 import math
@@ -10,9 +10,9 @@ THREAD_COUNT = 2
 jieba.enable_parallel(THREAD_COUNT)
 
 def tokenize(resId):
-    title = conn.hget("title", resId)
+    title = conn.hget("title", resId).decode("utf-8").replace("\u3000", " ")
     titleSegs = jieba.cut(title)
-    text = conn.hget("text", resId)
+    text = conn.hget("text", resId).decode("utf-8").replace("\u3000", " ")
     textSegs = jieba.cut(text)
 
     stash = {}
@@ -22,13 +22,14 @@ def tokenize(resId):
             stash[word] = 0
         stash[word] += 50
 
-    for word in text:
+    for word in textSegs:
         if word not in stash:
             stash[word] = 0
         stash[word] += 10
 
     for k, v in stash.items():
-        wordConn.zadd(k, resId, math.log(v))
+        wordConn.zadd(k, math.log(v), resId)
+        lookupConn.sadd(resId, k)
 
 def loop():
     while True:

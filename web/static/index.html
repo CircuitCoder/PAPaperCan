@@ -5,8 +5,35 @@
     <meta charset="utf-8">
     <title>Search</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="/static/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/static/action.js"></script>
   </head>
-  <body>
+  <body onload="bootstrap()">
+    <div id="app">
+      <div class="input-wrapper" :class="{ vacant: vacantInput }">
+        <input v-model="searchStr" @input="scheduleRefresh()" @focus="focusOnInput = true" @blur="focusOnInput = false" placeholder="Type to ask JieGe">
+      </div>
+
+      <div class="entries">
+        <div class="entry" v-for="e of list" @click="load(e.id)">
+          <h2>{{ e.title }}</h2>
+          <small>{{ e.preview }}...</small>
+        </div>
+      </div>
+
+      <div class="empty-hint" v-if="list.length === 0">Nothing's here, boy</div>
+      
+      <div class="pager" :class="{ 'pager-hidden': pagerSpec === null }">
+        <div class="pager-row" v-if="pagerSpec">
+          <div class="pager-slot pager-slot-top"
+               v-for="(e, i) of pagerSpec.top"
+               :style="{ color: jiegeRainbow(e, i == pagerSpec.activeSlot) }">{{ e }}</div>
+        </div>
+        <div class="pager-row" v-if="pagerSpec">
+          <div class="pager-slot pager-slot-bottom" v-for="(e, i) of pagerSpec.bottom" @click="tryPage(e)"
+            :class="{ 'active-page': i === pagerSpec.activeSlot, 'deco-slot': !Number.isInteger(e) }">{{ e }}</div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

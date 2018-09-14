@@ -1,0 +1,165 @@
+* {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+input, button, textarea {
+  font-family: sans-serif;
+}
+
+body {
+  padding: 40px 40px 160px 40px;
+  background: #EEE;
+}
+
+.input-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+
+  box-shadow: rgba(0,0,0,.3) 0 -4px 12px;
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 100;
+
+  transition: height .5s ease;
+}
+
+.input-wrapper.vacant {
+  height: 100vh;
+}
+
+.input-wrapper input {
+  width: 100%;
+  height: 100px;
+
+  padding: 0px 40px;
+  line-height: 100px;
+  font-size: 32px;
+  transition: font-size .3s ease;
+
+  border: none;
+  outline: none;
+}
+
+.input-wrapper.vacant input {
+  font-size: 64px;
+  transition: font-size .3s .2s ease;
+}
+
+.entries {
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.entry {
+  display: inline-block;
+  background: white;
+  position: relative;
+  padding: 20px 40px 40px 40px;
+  border-radius: 4px;
+  box-shadow: rgba(0,0,0,.3) 0 2px 6px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: box-shadow .2s ease;
+}
+
+.entry:hover {
+  box-shadow: rgba(0,0,0,.5) 0 4px 12px;
+}
+
+.pager {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 320px;
+  height: 160px;
+  padding-bottom: 100px;
+  background: white;
+  box-shadow: rgba(0,0,0,.5) 0 -2px 6px;
+  border-radius: 0 4px 0 0;
+
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  transition: transform .5s ease-out;
+}
+
+.pager-hidden {
+  transform: translateY(70px);
+  transition: transform .5s ease-in;
+}
+
+.pager-row {
+  display: inline-block;
+}
+
+.pager-slot {
+  height: 16px;
+  width: 30px;
+  line-height: 16px;
+  font-size: 16px;
+  font-family: monospace;
+  display: inline-block;
+  text-align: center;
+}
+
+.pager-slot-top {
+  font-weight: bold;
+}
+
+.pager-slot-bottom {
+  opacity: .54;
+  transition: opacity .2s ease;
+  cursor: pointer;
+}
+
+.pager-slot-bottom.active-page {
+  opacity: 1;
+}
+
+.pager-slot-bottom:hover {
+  opacity: 1;
+}
+
+.pager-slot-bottom.deco-slot {
+  cursor: default;
+}
+
+.pager-slot-bottom.deco-slot:hover {
+  opacity: .54;
+}
+
+.hint {
+  font-size: 16px;
+  color: rgba(0,0,0,.38);
+}
+
+.empty-hint {
+  position: fixed;
+  top: 0;
+  bottom: 100px;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 54px;
+  font-weight: bold;
+  color: rgba(0,0,0,.38);
+}

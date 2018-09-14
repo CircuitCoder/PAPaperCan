@@ -11,7 +11,7 @@ import requests
 import time
 import traceback
 
-THRESHOLD = 30000
+THRESHOLD = 500000
 PENDING_EXIT = False
 
 targetRe = [re.compile(p) for p in config["filter"]["target"]]

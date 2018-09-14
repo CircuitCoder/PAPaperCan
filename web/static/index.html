@@ -36,6 +36,16 @@
             :class="{ 'active-page': i === pagerSpec.activeSlot, 'deco-slot': !Number.isInteger(e) }">{{ e }}</div>
         </div>
       </div>
+
+      <div class="post-backdrop" v-if="rendering" @click="dismiss()">
+        <div class="post" @click.stop>
+          <div class="uri"><a :href="rendering.uri">{{ rendering.uri }}</a></div>
+          <h1 class="title">{{ rendering.title }}</h1>
+          <div class="time">{{ rendering.time }}</div>
+          <div class="source">{{ rendering.source }}</div>
+          <div class="rendered" v-html="rendering.rendered"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

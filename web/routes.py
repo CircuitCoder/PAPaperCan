@@ -9,8 +9,16 @@ import time
 PAGE_LEN = 10
 PREVIEW_LEN = 60
 
-def index(request):
-    return HttpResponse("Hello, world.")
+def fetch(request, resId):
+    source = conn.hget("source", resId).decode("utf-8")
+    rendered = conn.hget("rendered", resId).decode("utf-8")
+    title = conn.hget("title", resId).decode("utf-8")
+    time = conn.hget("time", resId).decode("utf-8")
+    uri = conn.hget("uri", resId).decode("utf-8")
+
+    result = { "source": source, "rendered": rendered, "title": title, "time": time, "uri": uri };
+
+    return HttpResponse(json.dumps(result))
 
 def search(request, kws, page=1):
     beginTime = time.time()

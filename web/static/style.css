@@ -170,3 +170,49 @@ body {
   color: rgba(0,0,0,.38);
   margin-bottom: 20px;
 }
+
+.post-backdrop {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+
+  z-index: 200;
+  background: rgba(0,0,0,.2);
+  padding: 0 80px;
+  overflow-y: scroll;
+}
+
+.post {
+  background: white;
+  max-width: 720px;
+  margin: 80px auto;
+  padding: 40px;
+  box-shadow: rgba(0,0,0,0.3) 0px 4px 12px;
+}
+
+.title {
+  font-weight: bold;
+  margin-top: 0px;
+}
+
+.source, .time, .uri {
+  color: rgba(0,0,0,.54);
+  margin-bottom: 10px;
+  margin-right: 20px;
+  display: inline-block;
+}
+
+.uri a {
+  color: rgba(0,0,0,.54);
+  transition: color .2s ease;
+}
+
+.uri a:hover {
+  color: rgba(0,0,0,.87);
+}
+
+.rendered {
+  margin-top: 20px;
+}

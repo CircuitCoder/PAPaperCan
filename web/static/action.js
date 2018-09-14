@@ -7,6 +7,8 @@ const desc = {
     debouncer: null,
     curIter: 0,
 
+    rendering: null,
+
     list: [],
     info: null,
   },
@@ -54,7 +56,15 @@ const desc = {
     },
 
     async load(id) {
-      await fetch(`/fetch/${id}`)
+      const resp = await fetch(`/fetch/${id}`)
+      const payload = await resp.json();
+      this.rendering = payload;
+      document.body.style['overflow-y'] = 'hidden';
+    },
+
+    dismiss() {
+      this.rendering = null;
+      document.body.style['overflow-y'] = 'auto';
     },
 
     jiegeRainbow(e, active) {

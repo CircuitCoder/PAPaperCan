@@ -48,7 +48,7 @@
         </div>
       </div>
 
-      <div class="timer">
+      <div class="timer" :class="{ 'timer-hidden': !searchStr }">
         <input placeholder="YYYY-MM-DD" v-model="lower" @input="scheduleRefresh()">
         <span class="timer-sep" :class="{ 'timer-sep-error': timeError }">~</span>
         <input placeholder="YYYY-MM-DD" v-model="higher" @input="scheduleRefresh()">

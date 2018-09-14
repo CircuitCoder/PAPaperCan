@@ -96,6 +96,8 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: row;
+
+  transition: transform .5s ease-out;
 }
 
 .timer input {
@@ -120,6 +122,11 @@ body {
 
 .timer-sep.timer-sep-error {
   color: red;
+}
+
+.timer-hidden {
+  transform: translateY(70px);
+  transition: transform .5s ease-in;
 }
 
 .pager {

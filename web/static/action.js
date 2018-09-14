@@ -40,7 +40,7 @@ const desc = {
       if(this.searchStr === "")
         url = `/all/${page}`;
       else {
-        const segs = this.searchStr.split(" ").join("+");
+        const segs = this.searchStr.split(" ").filter(e => e.length > 0).join("+");
         url = `/search/${segs}/${page}`;
       }
 
@@ -99,6 +99,14 @@ const desc = {
       if(s.length <= 2) return s;
       else if(important) return s;
       return '..' + s.substr(s.length-1);
+    },
+
+    highlight(content) {
+      if(this.searchStr === '') return content;
+      const segs = this.searchStr.split(' ').filter(e => e.length > 0);
+      for(const s of segs)
+        content = content.split(s).join(`<span class="hl">${s}</span>`);
+      return content;
     },
   },
 

@@ -25,9 +25,9 @@
         <div class="stats" v-if="info"><strong>{{ info.total }}</strong> records in <strong>{{ info.time }}</strong> secs</div>
 
         <div class="entry" v-for="e of list" @click="load(e.id)">
-          <h2>{{ e.title }}</h2>
+          <h2 v-html="highlight(e.title)"></h2>
           <small class="main-time">{{ e.time }}</small>
-          <small>{{ e.preview }}...</small>
+          <small v-html="highlight(e.preview) + '...'"></small>
         </div>
       </div>
 

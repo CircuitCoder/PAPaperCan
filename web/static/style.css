@@ -34,7 +34,7 @@ body {
 
   transition: height .5s ease;
 
-  cursor: text;
+  /* cursor: text; */
 }
 
 .input-wrapper.vacant {
@@ -115,8 +115,9 @@ body {
   line-height: 16px;
   font-size: 16px;
   /* font-family: monospace; */
-  display: inline-block;
-  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pager-slot-top {

@@ -10,8 +10,15 @@
   </head>
   <body onload="bootstrap()">
     <div id="app">
-      <div class="input-wrapper" :class="{ vacant: vacantInput }" @click="$refs.input.focus()">
-        <input v-model="searchStr" @input="scheduleRefresh()" @focus="focusOnInput = true" @blur="focusOnInput = false" placeholder="Type to ask JieGe" ref="input">
+      <div class="input-wrapper" :class="{ vacant: vacantInput }">
+        <input
+          v-model="searchStr"
+          @input="scheduleRefresh()"
+          @focus="focusOnInput = true"
+          @blur="focusOnInput = false"
+          @keydown.esc="$refs.input.blur()"
+          placeholder="Type to ask JieGe"
+          ref="input">
       </div>
 
       <div class="entries">
@@ -31,11 +38,13 @@
         <div class="pager-row" v-if="pagerSpec">
           <div class="pager-slot pager-slot-top"
                v-for="(e, i) of pagerSpec.top"
-               :style="{ color: jiegeRainbow(e, i == pagerSpec.activeSlot) }">{{ e }}</div>
+               :style="{ color: jiegeRainbow(e, i === pagerSpec.activeSlot) }">{{ e }}</div>
         </div>
         <div class="pager-row" v-if="pagerSpec">
           <div class="pager-slot pager-slot-bottom" v-for="(e, i) of pagerSpec.bottom" @click="tryPage(e)"
-            :class="{ 'active-page': i === pagerSpec.activeSlot, 'deco-slot': !Number.isInteger(e) }">{{ e }}</div>
+            :class="{ 'active-page': i === pagerSpec.activeSlot, 'deco-slot': !Number.isInteger(e) }">{{
+            renderPager(e, i === pagerSpec.bottom.length -1 || i === pagerSpec.activeSlot)
+            }}</div>
         </div>
       </div>
 

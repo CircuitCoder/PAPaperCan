@@ -83,6 +83,14 @@ const desc = {
         else return "#f57f17"
       } else return "#1b5e20"
     },
+
+    renderPager(e, important) {
+      if(!Number.isInteger(e)) return e;
+      const s = String(e);
+      if(s.length <= 2) return s;
+      else if(important) return s;
+      return '..' + s.substr(s.length-1);
+    },
   },
 
   computed: {

@@ -7,6 +7,7 @@ import json
 import time
 import jieba
 import jieba.analyse
+from config import config
 
 PAGE_LEN = 10
 PREVIEW_LEN = 60
@@ -55,12 +56,19 @@ def fetch(request, resId):
     return HttpResponse(json.dumps(result))
 
 def search(request, kws, page=1):
+    lower = request.GET.get("lower")
+    higher = request.GET.get("higher")
+
     beginTime = time.time()
 
     kws = kws.split("+")
     start = PAGE_LEN * (page-1)
     end = PAGE_LEN * page -1
-    reply = wordConn.eval(queryScript, len(kws), *kws, start, end, -1)
+    reply = None
+    if lower is None:
+        reply = wordConn.eval(queryScript, len(kws), *kws, start, end, -1)
+    else:
+        reply = wordConn.eval(queryScript, len(kws), *kws, start, end, -1, lower, higher, config['db']['use'], config['db']['wordUse'])
 
     total = reply[-1]
     if total == 0:

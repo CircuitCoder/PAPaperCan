@@ -48,6 +48,12 @@
         </div>
       </div>
 
+      <div class="timer">
+        <input placeholder="YYYY-MM-DD" v-model="lower" @input="scheduleRefresh()">
+        <span class="timer-sep" :class="{ 'timer-sep-error': timeError }">~</span>
+        <input placeholder="YYYY-MM-DD" v-model="higher" @input="scheduleRefresh()">
+      </div>
+
       <div class="post-backdrop" v-if="rendering" @click="dismiss()">
         <div class="post" @click.stop>
           <div class="uri"><a :href="rendering.uri">{{ rendering.uri }}</a></div>

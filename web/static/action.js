@@ -1,11 +1,16 @@
 DEBOUNCE_TIMEOUT = 500;
 
+const TIMER_RE = /^\d\d\d\d-\d\d-\d\d$/
+
 const desc = {
   data: {
     searchStr: '',
     focusOnInput: false,
     debouncer: null,
     curIter: 0,
+
+    lower: "",
+    higher: "",
 
     running: false,
 
@@ -38,6 +43,10 @@ const desc = {
         const segs = this.searchStr.split(" ").join("+");
         url = `/search/${segs}/${page}`;
       }
+
+      if(this.lower.match(TIMER_RE) && this.higher.match(TIMER_RE))
+        url += `?lower=${this.lower}&higher=${this.higher}`;
+
       const resp = await fetch(url);
       const payload = await resp.json();
 
@@ -123,6 +132,16 @@ const desc = {
       const bottom = front.concat(unpadded).concat(back);
 
       return { top, bottom, activeSlot };
+    },
+
+    timeError() {
+      if(!this.lower && !this.higher) return false;
+      if(!this.lower.match(TIMER_RE))
+        return true
+      if(!this.higher.match(TIMER_RE))
+        return true
+
+      return false
     },
   }
 };

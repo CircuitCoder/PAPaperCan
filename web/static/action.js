@@ -56,6 +56,7 @@ const desc = {
     },
 
     async load(id) {
+      this.rendering = null;
       const resp = await fetch(`/fetch/${id}`)
       const payload = await resp.json();
       this.rendering = payload;

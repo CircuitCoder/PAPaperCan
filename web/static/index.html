@@ -10,8 +10,8 @@
   </head>
   <body onload="bootstrap()">
     <div id="app">
-      <div class="input-wrapper" :class="{ vacant: vacantInput }">
-        <input v-model="searchStr" @input="scheduleRefresh()" @focus="focusOnInput = true" @blur="focusOnInput = false" placeholder="Type to ask JieGe">
+      <div class="input-wrapper" :class="{ vacant: vacantInput }" @click="$refs.input.focus()">
+        <input v-model="searchStr" @input="scheduleRefresh()" @focus="focusOnInput = true" @blur="focusOnInput = false" placeholder="Type to ask JieGe" ref="input">
       </div>
 
       <div class="entries">
@@ -44,6 +44,13 @@
           <div class="time">{{ rendering.time }}</div>
           <div class="source">{{ rendering.source }}</div>
           <div class="rendered" v-html="rendering.rendered"></div>
+          <div class="recommends">
+            <h2 class="recommends-title">Recommendations</h2>
+            <div class="recommend" v-for="r of rendering.recommends" @click="load(r.id)">
+              <h3 class="recommend-title">{{ r.title }}</h3>
+              <div class="recommend-preview">{{ r.preview }}...</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -72,12 +72,13 @@ def search(request, kws, page=1):
 
     titles = conn.hmget("title", *ids)
     previews = conn.hmget("text", *ids)
+    times = conn.hmget("time", *ids)
 
     previews = map(lambda x: x
             .decode("utf-8")[:PREVIEW_LEN], previews)
     previews = list(previews)
 
-    result = [{ "id": ids[i].decode(), "title": titles[i].decode("utf-8"), "preview": previews[i] } for i in range(0, len(ids))]
+    result = [{ "id": ids[i].decode(), "title": titles[i].decode("utf-8"), "preview": previews[i], "time": times[i].decode("utf-8") } for i in range(0, len(ids))]
     endTime = time.time()
 
     resp = { "result": result, "pages": pages, "time": endTime - beginTime, "total": total };

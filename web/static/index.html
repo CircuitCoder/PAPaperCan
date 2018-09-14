@@ -19,6 +19,7 @@
 
         <div class="entry" v-for="e of list" @click="load(e.id)">
           <h2>{{ e.title }}</h2>
+          <small class="main-time">{{ e.time }}</small>
           <small>{{ e.preview }}...</small>
         </div>
       </div>

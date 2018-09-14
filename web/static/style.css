@@ -251,3 +251,13 @@ body {
 .recommend-title {
   margin-top: 0;
 }
+
+.entry h2 {
+  margin-bottom: 5px;
+}
+
+.main-time {
+  margin-bottom: 20px;
+  color: rgba(0,0,0,.38);
+  display: block;
+}

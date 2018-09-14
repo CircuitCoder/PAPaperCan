@@ -64,7 +64,7 @@ def search(request, kws, page=1):
 
     total = reply[-1]
     if total == 0:
-        resp = { "result": [], "pages": 0, "time": time.time() - beginTime }
+        resp = { "result": [], "pages": 0, "time": time.time() - beginTime, "total": 0 }
         return HttpResponse(json.dumps(resp))
 
     pages = math.ceil(total / PAGE_LEN)

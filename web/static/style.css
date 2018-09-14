@@ -114,7 +114,7 @@ body {
   width: 30px;
   line-height: 16px;
   font-size: 16px;
-  font-family: monospace;
+  /* font-family: monospace; */
   display: inline-block;
   text-align: center;
 }

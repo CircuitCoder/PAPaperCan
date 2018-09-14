@@ -48,7 +48,13 @@ def fetch(request, resId):
             .decode("utf-8")[:RECOMMEND_PREVIEW_LEN], previews)
     previews = list(previews)
 
-    recommends = [{ "id": recommends[i].decode(), "title": titles[i].decode("utf-8"), "preview": previews[i] } for i in range(0, len(recommends))]
+    def populateId(i):
+        if type(i) is int:
+            return str(i)
+        else:
+            return i.decode()
+
+    recommends = [{ "id": populateId(recommends[i]), "title": titles[i].decode("utf-8"), "preview": previews[i] } for i in range(0, len(recommends))]
 
     print(_time.time() - b)
     result = { "source": source, "rendered": rendered, "title": title, "time": time, "uri": uri, "recommends": recommends };

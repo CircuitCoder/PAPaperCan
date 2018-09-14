@@ -24,7 +24,8 @@
         </div>
       </div>
 
-      <div class="empty-hint" v-if="list.length === 0">Nothing's here, boy</div>
+      <div class="empty-hint" v-if="list.length === 0 && !running">Nothing's here, boy</div>
+      <div class="empty-hint" v-if="list.length === 0 && running">Querying...</div>
       
       <div class="pager" :class="{ 'pager-hidden': pagerSpec === null }">
         <div class="pager-row" v-if="pagerSpec">

@@ -7,10 +7,16 @@ const desc = {
     debouncer: null,
     curIter: 0,
 
+    running: false,
+
     rendering: null,
 
     list: [],
     info: null,
+  },
+
+  created() {
+    this.goto(1);
   },
 
   methods: {
@@ -23,15 +29,16 @@ const desc = {
     },
 
     async goto(page) {
+      this.running = true;
       const iter = ++this.curIter;
-      if(this.searchStr === "") {
-        this.info = null;
-        this.list = [];
-        return;
+      let url;
+      if(this.searchStr === "")
+        url = `/all/${page}`;
+      else {
+        const segs = this.searchStr.split(" ").join("+");
+        url = `/search/${segs}/${page}`;
       }
-
-      const segs = this.searchStr.split(" ").join("+");
-      const resp = await fetch(`/search/${segs}/${page}`);
+      const resp = await fetch(url);
       const payload = await resp.json();
 
       if(iter !== this.curIter) return;
@@ -43,6 +50,7 @@ const desc = {
         total: payload.total,
         curPage: page,
       };
+      this.running = false;
     },
 
     async refresh() {
@@ -79,7 +87,7 @@ const desc = {
 
   computed: {
     vacantInput() {
-      return !this.searchStr && !this.focusOnInput;
+      return !this.searchStr && this.focusOnInput;
     },
 
     pagerSpec() {

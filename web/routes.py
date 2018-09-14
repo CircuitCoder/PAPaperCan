@@ -83,3 +83,32 @@ def search(request, kws, page=1):
 
     resp = { "result": result, "pages": pages, "time": endTime - beginTime, "total": total };
     return HttpResponse(json.dumps(resp))
+
+def all(request, page=1):
+    beginTime = time.time()
+
+    start = PAGE_LEN * (page-1)
+    end = PAGE_LEN * page -1
+
+    total = conn.llen("ready")
+
+    if total == 0:
+        resp = { "result": [], "pages": 0, "time": time.time() - beginTime, "total": 0 }
+        return HttpResponse(json.dumps(resp))
+
+    pages = math.ceil(total / PAGE_LEN)
+    ids = conn.lrange("ready", start, end)
+
+    titles = conn.hmget("title", *ids)
+    previews = conn.hmget("text", *ids)
+    times = conn.hmget("time", *ids)
+
+    previews = map(lambda x: x
+            .decode("utf-8")[:PREVIEW_LEN], previews)
+    previews = list(previews)
+
+    result = [{ "id": ids[i].decode(), "title": titles[i].decode("utf-8"), "preview": previews[i], "time": times[i].decode("utf-8") } for i in range(0, len(ids))]
+    endTime = time.time()
+
+    resp = { "result": result, "pages": pages, "time": endTime - beginTime, "total": total };
+    return HttpResponse(json.dumps(resp))

@@ -213,6 +213,7 @@ def loop():
             print(f"Success on {resId}")
             # Notify tokenizer 
             conn.lpush("tokenizer.pending", resId)
+            conn.rpush("ready", resId)
         else:
             print(f"Failed on {resId}")
             conn.lpush("extractor.failed", resId)

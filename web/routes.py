@@ -21,12 +21,12 @@ def search(request, kws, page=1):
     end = PAGE_LEN * page -1
     reply = wordConn.eval(queryScript, len(kws), *kws, start, end)
 
-    totalLen = reply[-1]
-    if totalLen == 0:
+    total = reply[-1]
+    if total == 0:
         resp = { "result": [], "pages": 0, "time": time.time() - beginTime }
         return HttpResponse(json.dumps(resp))
 
-    pages = math.ceil(totalLen / PAGE_LEN)
+    pages = math.ceil(total / PAGE_LEN)
     ids = reply[:-1]
 
     titles = conn.hmget("title", *ids)
@@ -39,5 +39,5 @@ def search(request, kws, page=1):
     result = [{ "id": ids[i].decode(), "title": titles[i].decode("utf-8"), "preview": previews[i] } for i in range(0, len(ids))]
     endTime = time.time()
 
-    resp = { "result": result, "pages": pages, "time": endTime - beginTime };
+    resp = { "result": result, "pages": pages, "time": endTime - beginTime, "total": total };
     return HttpResponse(json.dumps(resp))

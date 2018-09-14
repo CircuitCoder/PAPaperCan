@@ -38,6 +38,7 @@ const desc = {
       this.info = {
         time: payload.time,
         pages: payload.pages,
+        total: payload.total,
         curPage: page,
       };
     },

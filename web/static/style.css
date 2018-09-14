@@ -12,7 +12,7 @@ input, button, textarea {
 }
 
 body {
-  padding: 40px 40px 160px 40px;
+  padding: 40px 40px 120px 40px;
   background: #EEE;
 }
 
@@ -162,4 +162,11 @@ body {
   font-size: 54px;
   font-weight: bold;
   color: rgba(0,0,0,.38);
+}
+
+.stats {
+  font-size: 14px;
+  text-align: center;
+  color: rgba(0,0,0,.38);
+  margin-bottom: 20px;
 }

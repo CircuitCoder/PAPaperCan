@@ -68,6 +68,8 @@ def search(request, kws, page=1):
     beginTime = time.time()
 
     kws = kws.split("+")
+    if len(kws) == 1:
+        kws = list(jieba.cut_for_search(kws[0]))
     start = PAGE_LEN * (page-1)
     end = PAGE_LEN * page -1
     reply = None

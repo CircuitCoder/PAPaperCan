@@ -103,7 +103,7 @@ const desc = {
 
     highlight(content) {
       if(this.searchStr === '') return content;
-      const segs = this.searchStr.split(' ').filter(e => e.length > 0);
+      const segs = this.searchStr.replace(' ', '').split('').filter(e => e.length > 0);
       for(const s of segs)
         content = content.split(s).join(`<span class="hl">${s}</span>`);
       return content;
